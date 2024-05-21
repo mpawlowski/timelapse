@@ -3,7 +3,7 @@ name: Tag - Patch
 on: workflow_dispatch
 
 jobs:
-  build:
+  tag-patch:
 
     runs-on: ubuntu-latest
 

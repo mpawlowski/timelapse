@@ -3,7 +3,7 @@ name: Tag - Minor
 on: workflow_dispatch
 
 jobs:
-  build:
+  tag-minor:
 
     runs-on: ubuntu-latest
 
