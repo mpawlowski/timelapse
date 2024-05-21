@@ -4,7 +4,7 @@ A tool to create timelapses from a series of images using ImageMagick and FFMpeg
 
 # Usage
 
-Downlad the binary for your operating system using the latest release [here](https://github.com/mpawlowski/timelapse/releases/latest).
+Downlad the latest release [here](https://github.com/mpawlowski/timelapse/releases/latest).
 
 ## Linux (x64)
     ./timelapse-linux-amd64 --source-directory=/path/to/image/directory
