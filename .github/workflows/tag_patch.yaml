@@ -1,4 +1,4 @@
-name: Tag - Patch
+name: Tag - Patch (vX.X.X+1)
 
 on: workflow_dispatch
 

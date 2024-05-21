@@ -6,7 +6,7 @@ latestTag=$(git tag | sort -V | tail -n 1)
 # Split the version into major, minor, patch
 major=$(echo $latestTag | awk -F. '{print $1}')
 minor=$(echo $latestTag | awk -F. '{print $2}')
-patch=$(echo $latestTag | awk -F. '{print $3}')
+patch=0 # Always reset patch to 0 on minor tag
 
 # Check if major is empty
 if [ -z "$major" ]; then
@@ -16,11 +16,6 @@ fi
 # Check if minor is empty
 if [ -z "$minor" ]; then
     minor=0
-fi
-
-# Check if patch is empty
-if [ -z "$patch" ]; then
-    patch=0
 fi
 
 # Increment the minor version
