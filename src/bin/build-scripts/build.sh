@@ -21,4 +21,3 @@ function build() {
 }
 
 build linux amd64 timelapse-linux-amd64
-build windows amd64 timelapse-windows-amd64.exe
