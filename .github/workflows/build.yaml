@@ -33,4 +33,4 @@ jobs:
         with:
           files: |
             LICENSE
-            release-bin/*
+            release-bin/**
