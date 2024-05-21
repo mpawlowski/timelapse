@@ -1,4 +1,4 @@
-name: Tag - Minor  (vX.X+1.0)
+name: Tag - Minor
 
 on: workflow_dispatch
 
