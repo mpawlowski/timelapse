@@ -1,0 +1,15 @@
+name: Tag - Patch
+
+on: workflow_dispatch
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Tag
+        run: |
+          ./src/bin/build-scripts/tag.patch.sh
