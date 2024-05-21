@@ -30,7 +30,7 @@ jobs:
       - name: Copy Binary
         run: |
           mkdir -p release-bin/
-          cp build/ release-bin
+          cp -r build/ release-bin
 
       - uses: marvinpinto/action-automatic-releases@latest
         with:
