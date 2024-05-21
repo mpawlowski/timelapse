@@ -1,8 +1,6 @@
-name: Build - Continuous
+name: Build
 
-on:
-  push:
-    branches: [main]
+on: push
 
 jobs:
   build:
@@ -35,4 +33,4 @@ jobs:
         with:
           files: |
             LICENSE
-            build/*
+            release-bin/*
