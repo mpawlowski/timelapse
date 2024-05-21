@@ -51,7 +51,7 @@ type TimelapseGenerator interface {
 }
 
 type timelapseGenerator struct {
-	im imagemagick.ImageMagick
+	im imagemagick.ImageMagickConvert
 	ff ffmpeg.FFMpeg
 }
 
@@ -172,7 +172,7 @@ func (t *timelapseGenerator) GenerateTimelapse(ctx context.Context, sourceDir st
 
 // NewTimelapseGenerator creates a new TimelapseGenerator instance.
 func NewTimelapseGenerator(
-	im imagemagick.ImageMagick,
+	im imagemagick.ImageMagickConvert,
 	ff ffmpeg.FFMpeg,
 ) TimelapseGenerator {
 	return &timelapseGenerator{

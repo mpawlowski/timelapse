@@ -9,9 +9,9 @@ import (
 	"github.com/mpawlowski/timelapse/src/pkg/osutil"
 )
 
-func (i *imageMagick) Morph(ctx context.Context, from string, to string, destDir string, options ...Option) error {
+func (i *imageMagickConvert) Morph(ctx context.Context, from string, to string, destDir string, options ...ConvertOption) error {
 
-	opts := defaultMorphOptions()
+	opts := defaultConvertOptions()
 	for _, opt := range options {
 		opt(opts)
 	}

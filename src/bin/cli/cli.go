@@ -27,7 +27,7 @@ type flags struct {
 	FFMpegVideoCodec  string
 	FFMpegVideoSize   string
 
-	ImageMagickBinary         string
+	ImageMagickConvertBinary  string
 	ImageMagickNumMorphFrames int
 }
 
@@ -45,7 +45,7 @@ func parseFlags() {
 	flag.StringVar(&options.FFMpegVideoCodec, "ffmpeg-video-codec", ffmpeg.DefaultVideoCodec, "Codec used to encode the generated video.")
 	flag.StringVar(&options.FFMpegVideoSize, "ffmpeg-video-size", ffmpeg.DefaultVideoSize, "Dimensions of the generated video.")
 
-	flag.StringVar(&options.ImageMagickBinary, "imagemagick-binary", imagemagick.DefaultImageMagickBinary, "Path to the ImageMagick binary.")
+	flag.StringVar(&options.ImageMagickConvertBinary, "imagemagick-convert-binary", imagemagick.DefaultImageMagickConvertBinary, "Path to the ImageMagick binary.")
 	flag.IntVar(&options.ImageMagickNumMorphFrames, "imagemagick-num-morph-frames", imagemagick.DefaultMorphFrames, "Number of frames to generate between each image.")
 
 	// Override the default help message
@@ -65,14 +65,14 @@ func parseFlags() {
 
 	// check and see if ffmpeg binary exists
 	if !osutil.CheckIfProgramExists(options.FFMpegBinary) {
-		fmt.Fprintf(flag.CommandLine.Output(), "Error: ffmpeg binary does not exist at %s\n", options.FFMpegBinary)
+		fmt.Fprintf(flag.CommandLine.Output(), "Error: ffmpeg binary '%s' does not exist\n", options.FFMpegBinary)
 		flag.Usage()
 		os.Exit(127)
 	}
 
 	// check and see if imagemagick binary exists
-	if !osutil.CheckIfProgramExists(options.ImageMagickBinary) {
-		fmt.Fprintf(flag.CommandLine.Output(), "Error: imagemagick binary does not exist at %s\n", options.ImageMagickBinary)
+	if !osutil.CheckIfProgramExists(options.ImageMagickConvertBinary) {
+		fmt.Fprintf(flag.CommandLine.Output(), "Error: imagemagick convert binary '%s' does not exist\n", options.ImageMagickConvertBinary)
 		flag.Usage()
 		os.Exit(127)
 	}
@@ -90,7 +90,7 @@ func buildOptions() []timelapse.Option {
 	))
 
 	tOpts = append(tOpts, timelapse.WithImageMagickMorphOptions(
-		imagemagick.WithCustomBinary(options.ImageMagickBinary),
+		imagemagick.WithCustomBinary(options.ImageMagickConvertBinary),
 		imagemagick.WithNumMorphFrames(options.ImageMagickNumMorphFrames),
 	))
 
