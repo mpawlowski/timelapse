@@ -6,8 +6,8 @@ import (
 )
 
 type timelapseOptions struct {
-	ffmpegOptions      []ffmpeg.VideoOption
-	imagemagickOptions []imagemagick.MorphOption
+	ffmpegOptions      []ffmpeg.Option
+	imagemagickOptions []imagemagick.Option
 }
 
 // Option is an interface for functional options.
@@ -15,20 +15,20 @@ type Option func(*timelapseOptions)
 
 func defaultTimelapseOptions() *timelapseOptions {
 	return &timelapseOptions{
-		ffmpegOptions:      []ffmpeg.VideoOption{},
-		imagemagickOptions: []imagemagick.MorphOption{},
+		ffmpegOptions:      []ffmpeg.Option{},
+		imagemagickOptions: []imagemagick.Option{},
 	}
 }
 
 // WithFFMpegVideoOptions is a functional option for setting ffmpeg options.
-func WithFFMpegVideoOptions(opts ...ffmpeg.VideoOption) Option {
+func WithFFMpegVideoOptions(opts ...ffmpeg.Option) Option {
 	return func(t *timelapseOptions) {
 		t.ffmpegOptions = append(t.ffmpegOptions, opts...)
 	}
 }
 
 // WithImageMagickMorphOptions is a functional option for setting imagemagick options.
-func WithImageMagickMorphOptions(opts ...imagemagick.MorphOption) Option {
+func WithImageMagickMorphOptions(opts ...imagemagick.Option) Option {
 	return func(t *timelapseOptions) {
 		t.imagemagickOptions = append(t.imagemagickOptions, opts...)
 	}

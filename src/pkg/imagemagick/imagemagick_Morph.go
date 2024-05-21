@@ -5,13 +5,19 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+
+	"github.com/mpawlowski/timelapse/src/pkg/osutil"
 )
 
-func (i *imageMagick) Morph(ctx context.Context, from string, to string, destDir string, options ...MorphOption) error {
+func (i *imageMagick) Morph(ctx context.Context, from string, to string, destDir string, options ...Option) error {
 
 	opts := defaultMorphOptions()
 	for _, opt := range options {
 		opt(opts)
+	}
+
+	if !osutil.CheckIfProgramExists(opts.imageMagickBinary) {
+		return fmt.Errorf("ImageMagick binary not found at: %s", opts.imageMagickBinary)
 	}
 
 	dest := fmt.Sprintf("%s/%%d.jpg", destDir)

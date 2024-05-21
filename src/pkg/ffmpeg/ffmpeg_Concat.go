@@ -2,12 +2,24 @@ package ffmpeg
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/exec"
+
+	"github.com/mpawlowski/timelapse/src/pkg/osutil"
 )
 
 // Concat implements FFMpeg. bash equivalent
-func (f *ffmpeg) Concat(ctx context.Context, clipListFile string, outputFile string) error {
+func (f *ffmpeg) Concat(ctx context.Context, clipListFile string, outputFile string, options ...Option) error {
+
+	opts := defaultFFMpegOptions()
+	for _, opt := range options {
+		opt(opts)
+	}
+
+	if !osutil.CheckIfProgramExists(opts.ffmPegBinary) {
+		return fmt.Errorf("ImageMagick binary not found at: %s", opts.ffmPegBinary)
+	}
 
 	// ffmpeg -f concat -safe 0 -i clips.txt -c copy output.mp4
 	args := []string{}

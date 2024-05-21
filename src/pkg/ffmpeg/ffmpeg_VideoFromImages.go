@@ -6,13 +6,19 @@ import (
 	"os"
 	"os/exec"
 	"path"
+
+	"github.com/mpawlowski/timelapse/src/pkg/osutil"
 )
 
-func (f *ffmpeg) VideoFromImages(ctx context.Context, sourceDir string, outputFile string, options ...VideoOption) error {
+func (f *ffmpeg) VideoFromImages(ctx context.Context, sourceDir string, outputFile string, options ...Option) error {
 
 	opts := defaultFFMpegOptions()
 	for _, opt := range options {
 		opt(opts)
+	}
+
+	if !osutil.CheckIfProgramExists(opts.ffmPegBinary) {
+		return fmt.Errorf("ImageMagick binary not found at: %s", opts.ffmPegBinary)
 	}
 
 	args := []string{}
@@ -27,7 +33,7 @@ func (f *ffmpeg) VideoFromImages(ctx context.Context, sourceDir string, outputFi
 
 	fmt.Println("exec", "ffmpeg", args)
 
-	exec := exec.CommandContext(ctx, "ffmpeg", args...)
+	exec := exec.CommandContext(ctx, opts.ffmPegBinary, args...)
 	exec.Stdout = os.Stdout
 	exec.Stderr = os.Stderr
 	return exec.Run()

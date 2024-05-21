@@ -12,6 +12,7 @@ import (
 	"github.com/mpawlowski/timelapse"
 	"github.com/mpawlowski/timelapse/src/pkg/ffmpeg"
 	"github.com/mpawlowski/timelapse/src/pkg/imagemagick"
+	"github.com/mpawlowski/timelapse/src/pkg/osutil"
 	"go.uber.org/fx"
 )
 
@@ -19,12 +20,14 @@ type flags struct {
 	OutputFile      string
 	SourceDirectory string
 
+	FFMpegBinary      string
 	FFMpegBitRate     string
 	FFMpegFrameRate   int
 	FFMpegPixelFormat string
 	FFMpegVideoCodec  string
 	FFMpegVideoSize   string
 
+	ImageMagickBinary         string
 	ImageMagickNumMorphFrames int
 }
 
@@ -35,12 +38,14 @@ func parseFlags() {
 	flag.StringVar(&options.OutputFile, "output-file", "output.mp4", "Name of the generated video file.")
 	flag.StringVar(&options.SourceDirectory, "source-dir", "", "Directory containing images to be processed.")
 
+	flag.StringVar(&options.FFMpegBinary, "ffmpeg-binary", ffmpeg.DefaultFFMpegBinary, "Path to the FFMpeg binary.")
 	flag.StringVar(&options.FFMpegBitRate, "ffmpeg-bit-rate", ffmpeg.DefaultVideoBitRate, "Bit rate of the generated video.")
 	flag.IntVar(&options.FFMpegFrameRate, "ffmpeg-frame-rate", ffmpeg.DefaultVideoFrameRate, "Frame rate of the generated video.")
 	flag.StringVar(&options.FFMpegPixelFormat, "ffmpeg-pixel-format", ffmpeg.DefaultVideoPixelFormat, "Pixel format of the generated video.")
 	flag.StringVar(&options.FFMpegVideoCodec, "ffmpeg-video-codec", ffmpeg.DefaultVideoCodec, "Codec used to encode the generated video.")
 	flag.StringVar(&options.FFMpegVideoSize, "ffmpeg-video-size", ffmpeg.DefaultVideoSize, "Dimensions of the generated video.")
 
+	flag.StringVar(&options.ImageMagickBinary, "imagemagick-binary", imagemagick.DefaultImageMagickBinary, "Path to the ImageMagick binary.")
 	flag.IntVar(&options.ImageMagickNumMorphFrames, "imagemagick-num-morph-frames", imagemagick.DefaultMorphFrames, "Number of frames to generate between each image.")
 
 	// Override the default help message
@@ -57,12 +62,27 @@ func parseFlags() {
 		flag.Usage()
 		os.Exit(1)
 	}
+
+	// check and see if ffmpeg binary exists
+	if !osutil.CheckIfProgramExists(options.FFMpegBinary) {
+		fmt.Fprintf(flag.CommandLine.Output(), "Error: ffmpeg binary does not exist at %s\n", options.FFMpegBinary)
+		flag.Usage()
+		os.Exit(127)
+	}
+
+	// check and see if imagemagick binary exists
+	if !osutil.CheckIfProgramExists(options.ImageMagickBinary) {
+		fmt.Fprintf(flag.CommandLine.Output(), "Error: imagemagick binary does not exist at %s\n", options.ImageMagickBinary)
+		flag.Usage()
+		os.Exit(127)
+	}
 }
 
 func buildOptions() []timelapse.Option {
 	tOpts := []timelapse.Option{}
 
 	tOpts = append(tOpts, timelapse.WithFFMpegVideoOptions(
+		ffmpeg.WithCustomBinary(options.FFMpegBinary),
 		ffmpeg.WithBitRate(options.FFMpegBitRate),
 		ffmpeg.WithFrameRate(options.FFMpegFrameRate),
 		ffmpeg.WithVideoSize(options.FFMpegVideoSize),
@@ -70,6 +90,7 @@ func buildOptions() []timelapse.Option {
 	))
 
 	tOpts = append(tOpts, timelapse.WithImageMagickMorphOptions(
+		imagemagick.WithCustomBinary(options.ImageMagickBinary),
 		imagemagick.WithNumMorphFrames(options.ImageMagickNumMorphFrames),
 	))
 
