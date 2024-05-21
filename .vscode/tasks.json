@@ -4,7 +4,7 @@
         {
             "label": "Build",
             "type": "shell",
-            "command": "./build.sh",
+            "command": "./src/bin/build-scripts/build.sh",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -13,7 +13,7 @@
         {
             "label": "Install Dependencies",
             "type": "shell",
-            "command": "./install.sh",
+            "command": "./src/bin/build-scripts/install.sh",
             "group": {
                 "kind": "test",
                 "isDefault": false

@@ -20,7 +20,7 @@ jobs:
       
       - name: Build
         run: |
-          ./build.sh
+          ./src/bin/build-scripts/build.sh
 
       - name: Release
         uses: softprops/action-gh-release@v2
