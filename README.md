@@ -1,4 +1,4 @@
-# timelapse
+# timelapse [![Build](https://github.com/mpawlowski/timelapse/actions/workflows/build.yaml/badge.svg)](https://github.com/mpawlowski/timelapse/actions/workflows/build.yaml)
 
 A tool to create timlapses from a series of imagesusing ImageMagick and FFMpeg.
 
