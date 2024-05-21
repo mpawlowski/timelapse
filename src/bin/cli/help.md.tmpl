@@ -1,0 +1,22 @@
+Usage: {{ .CommandName }} [OPTIONS]
+
+Build Info:
+    Git:
+        Branch: {{ .BuildInfo.GitBranch }}
+        Hash: {{ .BuildInfo.GitHash }}
+        Dirty: {{ .BuildInfo.GitDirty }}
+
+A non-interactive command line utility to create smooth timlapse videos from
+a set of images. This tool requires pre-installed command line tools to be
+installed in order to run successfully.
+
+Required Tools:
+
+    ffmpeg          https://ffmpeg.org/
+    imagemagick     https://imagemagick.org/index.php
+
+Example:
+
+    {{ .CommandName }} --source-directory=/path/to/image/directory
+
+Options:

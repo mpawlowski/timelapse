@@ -1,0 +1,43 @@
+name: Build - Continuous
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [ '1.22.x' ]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go-version }}
+
+      - name: Dependencies
+        run: |
+          go get .
+      
+      - name: Build
+        run: |
+          ./build.sh
+
+      - name: Copy Binary
+        run: |
+          mkdir -p release-bin/
+          cp build/ release-bin
+
+      - uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            LICENSE
+            release-bin/*

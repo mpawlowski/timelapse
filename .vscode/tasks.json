@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build",
+            "type": "shell",
+            "command": "./build.sh",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Install Dependencies",
+            "type": "shell",
+            "command": "./install.sh",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "Documentation Server",
+            "type": "shell",
+            "command": "$(go env GOPATH)/bin/godoc -http=:6060",
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        }
+    ]
+}
