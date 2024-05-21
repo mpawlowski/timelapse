@@ -27,8 +27,8 @@ type flags struct {
 	FFMpegVideoCodec  string
 	FFMpegVideoSize   string
 
-	ImageMagickConvertBinary  string
-	ImageMagickNumMorphFrames int
+	ImageMagickConvertBinary         string
+	ImageMagickConvertNumMorphFrames int
 }
 
 var options flags
@@ -46,7 +46,7 @@ func parseFlags() {
 	flag.StringVar(&options.FFMpegVideoSize, "ffmpeg-video-size", ffmpeg.DefaultVideoSize, "Dimensions of the generated video.")
 
 	flag.StringVar(&options.ImageMagickConvertBinary, "imagemagick-convert-binary", imagemagick.DefaultImageMagickConvertBinary, "Path to the ImageMagick binary.")
-	flag.IntVar(&options.ImageMagickNumMorphFrames, "imagemagick-num-morph-frames", imagemagick.DefaultMorphFrames, "Number of frames to generate between each image.")
+	flag.IntVar(&options.ImageMagickConvertNumMorphFrames, "imagemagick-convert-num-morph-frames", imagemagick.DefaultMorphFrames, "Number of frames to generate between each image.")
 
 	// Override the default help message
 	flag.Usage = func() {
@@ -91,7 +91,7 @@ func buildOptions() []timelapse.Option {
 
 	tOpts = append(tOpts, timelapse.WithImageMagickMorphOptions(
 		imagemagick.WithCustomBinary(options.ImageMagickConvertBinary),
-		imagemagick.WithNumMorphFrames(options.ImageMagickNumMorphFrames),
+		imagemagick.WithNumMorphFrames(options.ImageMagickConvertNumMorphFrames),
 	))
 
 	return tOpts
