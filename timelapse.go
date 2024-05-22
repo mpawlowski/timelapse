@@ -130,8 +130,8 @@ func (t *timelapseGenerator) GenerateTimelapse(ctx context.Context, sourceDir st
 			}
 		}
 
-		// create video clip from morphed frames
-		clipFile := path.Join(clipDir, fmt.Sprintf("%d.mp4", i))
+		// create video clip from morphed frames, ensuring to zero pad the clip number so they sort naturally
+		clipFile := path.Join(clipDir, fmt.Sprintf("%010d.mp4", i))
 		err = t.ff.VideoFromImages(ctx, myFrameDir, clipFile, opts.ffmpegOptions...)
 		if err != nil {
 			return fmt.Errorf("unable to generate video clip %s: %w", clipFile, err)
